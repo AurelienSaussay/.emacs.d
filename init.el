@@ -7,6 +7,7 @@
 
 ;; Interactivly Do Things
 (require 'ido)
+(ido-mode)
 (setq ido-enable-flex-matching 1)
 
 
@@ -32,16 +33,19 @@
 
 
 ;; Hide the toolbar and the menu bar
-(tool-bar-mode -1)
+; (tool-bar-mode -1)
 (menu-bar-mode 0)
 
 
 ;; Color Themes
 (require 'color-theme)
+(require 'color-theme-solarized)
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-blackboard)))
+     (if window-system
+     (color-theme-blackboard)
+     (color-theme-solarized-dark))))
 
 
 ;; Ruby mode auto-indent
@@ -93,6 +97,10 @@
 ;; Less css mode
 (require 'less-css-mode)
 
+;; Scss mode
+(require 'scss-mode)
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+
 ;; Haml mode
 (require 'haml-mode)
 (add-hook 'haml-mode-hook
@@ -116,7 +124,7 @@
 ;; (setq mumamo-background-colors nil)
 
 ;; Comment line
-(global-set-key (kbd "C-;") 
+(global-set-key (kbd "C-^") 
 		'(lambda () 
 		   (interactive)
 		   (move-beginning-of-line nil) 
@@ -125,7 +133,7 @@
 		   (comment-dwim nil) ))
 
 ;; Ctrl-Shift-S to kill word backward
-(global-set-key (kbd "C-S-b") 'backward-kill-word)
+(global-set-key (kbd "C-M-b") 'backward-kill-word)
 
 ;; Alt-p and Alt-n to navigate paragraphs (and functions)
 (global-set-key (kbd "M-p") 'backward-paragraph)
@@ -149,6 +157,9 @@
     (back-to-indentation)
     (and (= oldpos (point))
          (beginning-of-line))))
+
+;; Goto-line shortcut
+(global-set-key (kbd "C-c g") 'goto-line)
 
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
