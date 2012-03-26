@@ -109,6 +109,8 @@
    (setq indent-tabs-mode nil)
    (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
+;; ESS
+(load "/usr/share/emacs/site-lisp/ess/ess-site")
 
 ;; nxhtml (HTML ERB template support)
 ;; (load "~/.emacs.d/site-lisp/nxhtml/autostart.el")
