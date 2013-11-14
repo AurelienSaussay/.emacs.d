@@ -27,13 +27,22 @@
 (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
 
 
+;; Smex: Ido for commands
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "C-c x") 'smex)
+
+
+;; find-files: recursively open files with -r*
+(require 'find-files)
+
 ;; SmartTab
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 
 
 ;; Hide the toolbar and the menu bar
-; (tool-bar-mode -1)
+					; (tool-bar-mode -1)
 (menu-bar-mode 0)
 
 
@@ -44,8 +53,8 @@
   '(progn
      (color-theme-initialize)
      (if window-system
-     (color-theme-blackboard)
-     (color-theme-solarized-dark))))
+	 (color-theme-blackboard)
+       (color-theme-solarized-dark))))
 
 
 ;; Ruby mode auto-indent
@@ -90,9 +99,9 @@
 (add-hook 'coffee-mode-hook '(lambda () (coffee-cos-mode t)))
 (defun coffee-custom ()
   "coffee-mode-hook"
- (set (make-local-variable 'tab-width) 2))
+  (set (make-local-variable 'tab-width) 2))
 (add-hook 'coffee-mode-hook
-  '(lambda() (coffee-custom)))
+	  '(lambda() (coffee-custom)))
 
 ;; Less css mode
 (require 'less-css-mode)
@@ -104,10 +113,10 @@
 ;; Haml mode
 (require 'haml-mode)
 (add-hook 'haml-mode-hook
-'(lambda ()
-   (set (make-local-variable 'tab-width) 2)
-   (setq indent-tabs-mode nil)
-   (define-key haml-mode-map "\C-m" 'newline-and-indent)))
+	  '(lambda ()
+	     (set (make-local-variable 'tab-width) 2)
+	     (setq indent-tabs-mode nil)
+	     (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
 ;; ESS
 (load "/usr/share/emacs/site-lisp/ess/ess-site")
@@ -126,12 +135,12 @@
 ;; (setq mumamo-background-colors nil)
 
 ;; Comment line
-(global-set-key (kbd "C-^") 
-		'(lambda () 
+(global-set-key (kbd "C-^")
+		'(lambda ()
 		   (interactive)
-		   (move-beginning-of-line nil) 
-		   (set-mark-command nil) 
-		   (move-end-of-line nil) 
+		   (move-beginning-of-line nil)
+		   (set-mark-command nil)
+		   (move-end-of-line nil)
 		   (comment-dwim nil) ))
 
 ;; Ctrl-Shift-S to kill word backward
@@ -142,7 +151,7 @@
 (global-set-key (kbd "M-n") 'forward-paragraph)
 
 ;; No backup
-(setq make-backup-files nil) 
+(setq make-backup-files nil)
 ;; No auto-save
 (setq auto-save-default nil)
 
@@ -165,19 +174,87 @@
 
 (global-set-key (kbd "C-a") 'smart-beginning-of-line)
 
-;; Cygwin
-;; (setenv "PATH" (concat "c:/cygwin/bin;/cygdrive/c/cygwin/bin;/cygdrive/c/cygwin/usr/local/bin;/bin;/usr/local/bin;" (getenv "PATH")))
-;; (setq exec-path (cons "c:/cygwin/bin/" exec-path))
-;; (require 'cygwin-mount)
-;; (cygwin-mount-activate)
-; (setenv "PS1" "\\[\\e[0;33m\\]othello\\$ \\[\\e[0m\\]")
+;; Go mode
+(require 'go-mode-load)
 
-;; (add-hook 'comint-output-filter-functions
-;;     'shell-strip-ctrl-m nil t)
-;; (add-hook 'comint-output-filter-functions
-;;     'comint-watch-for-password-prompt nil t)
-;; (setq explicit-shell-file-name "bash.exe")
-;; ;; For subprocesses invoked via the shell
-;; ;; (e.g., "shell -c command")
-;; (setq shell-file-name explicit-shell-file-name)
+;; Yaml mode
+(require 'yaml-mode)
+
+;; Python mode
+(require 'python-mode)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(require 'anything)
+(require 'anything-ipython)
+
+(when (require 'anything-show-completion nil t)
+  (use-anything-show-completion 'anything-ipython-complete
+				'(length initial-pattern)))
+
+(require 'comint)
+(define-key comint-mode-map (kbd "M-") 'comint-next-input)
+(define-key comint-mode-map (kbd "M-") 'comint-previous-input)
+(define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
+(define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
+
+(autoload 'pylookup-lookup "pylookup")
+(autoload 'pylookup-update "pylookup")
+(setq pylookup-program "~/.emacs.d/pylookup/pylookup.py")
+(setq pylookup-db-file "~/.emacs.d/pylookup/pylookup.db")
+(global-set-key "\C-ch" 'pylookup-lookup)
+
+;; (autoload 'autopair-global-mode "autopair" nil t)
+;; (autopair-global-mode)
+(add-hook 'lisp-mode-hook
+          #'(lambda () (setq autopair-dont-activate t)))
+(add-hook 'python-mode-hook
+          #'(lambda ()
+              (push '(?' . ?')
+                    (getf autopair-extra-pairs :code))
+              (setq autopair-handle-action-fns
+                    (list #'autopair-default-handle-action
+                          #'autopair-python-triple-quote-action))))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+
+;; Search all files
+;; by offby1 on Stack Overflow
+;; http://stackoverflow.com/questions/2641211/emacs-interactively-search-open-buffers
+
+(defcustom search-all-buffers-ignored-files (list (rx-to-string '(and bos (or ".bash_history" "TAGS") eos)))
+  "Files to ignore when searching buffers via \\[search-all-buffers]."
+  :type 'editable-list)
+
+(require 'grep)
+(defun search-all-buffers (regexp prefix)
+  "Searches file-visiting buffers for occurence of REGEXP.  With
+prefix > 1 (i.e., if you type C-u \\[search-all-buffers]),
+searches all buffers."
+  (interactive (list (grep-read-regexp)
+                     current-prefix-arg))
+  (message "Regexp is %s; prefix is %s" regexp prefix)
+  (multi-occur
+   (if (member prefix '(4 (4)))
+       (buffer-list)
+     (remove-if
+      (lambda (b) (some (lambda (rx) (string-match rx  (file-name-nondirectory (buffer-file-name b)))) search-all-buffers-ignored-files))
+      (remove-if-not 'buffer-file-name (buffer-list))))
+
+   regexp))
+
+(global-set-key (kbd "C-c s") 'search-all-buffers)
+
+;; Textmate.el
+(require 'textmate)
+(textmate-mode)
+
+;; magit
+(require 'magit)
+;; Auto-revert always on, helps when branching with git-auto-revert-mode)
+(global-auto-revert-mode)
+
+
+(global-set-key (kbd "C-x s") 'save-buffer)
+
+
 
