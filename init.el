@@ -249,7 +249,7 @@ searches all buffers."
 ;; (textmate-mode)
 
 ;; magit
-(require 'magit)
+;; (require 'magit)
 ;; Auto-revert always on, helps when branching with git-auto-revert-mode)
 (global-auto-revert-mode)
 
