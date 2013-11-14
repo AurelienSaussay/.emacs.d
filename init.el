@@ -119,7 +119,7 @@
 	     (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
 ;; ESS
-(load "/usr/share/emacs/site-lisp/ess/ess-site")
+;; (load "/usr/share/emacs/site-lisp/ess/ess-site")
 
 ;; nxhtml (HTML ERB template support)
 ;; (load "~/.emacs.d/site-lisp/nxhtml/autostart.el")
@@ -245,8 +245,8 @@ searches all buffers."
 (global-set-key (kbd "C-c s") 'search-all-buffers)
 
 ;; Textmate.el
-(require 'textmate)
-(textmate-mode)
+;; (require 'textmate)
+;; (textmate-mode)
 
 ;; magit
 (require 'magit)
