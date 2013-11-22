@@ -176,6 +176,11 @@
 
 ;; Go mode
 (require 'go-mode-load)
+(add-hook 'before-save-hook 'gofmt-before-save)
+(if (eq system-type 'windows-nt)
+    ((setenv "GOPATH" "C:/Data/Go")
+     (setenv "PATH" (concat (getenv "PATH") ";" "C:/Go/bin"))
+     (setq exec-path (append exec-path '("C:/Go/bin")))))
 
 ;; Yaml mode
 (require 'yaml-mode)
@@ -257,4 +262,11 @@ searches all buffers."
 (global-set-key (kbd "C-x s") 'save-buffer)
 
 
+;; ELPA for Emacs >= 24
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  )
 
+(tool-bar-mode 0)
