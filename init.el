@@ -178,9 +178,9 @@
 (require 'go-mode-load)
 (add-hook 'before-save-hook 'gofmt-before-save)
 (if (eq system-type 'windows-nt)
-    ((setenv "GOPATH" "C:/Data/Go")
-     (setenv "PATH" (concat (getenv "PATH") ";" "C:/Go/bin"))
-     (setq exec-path (append exec-path '("C:/Go/bin")))))
+    (progn (setenv "GOPATH" "C:\\Data\\Go")
+	   (setenv "PATH" (concat (getenv "PATH") ";" "C:\\Go\\bin"))
+	   (setq exec-path (append exec-path '("C:\\Go\\bin")))))
 
 ;; Yaml mode
 (require 'yaml-mode)
@@ -257,6 +257,10 @@ searches all buffers."
 ;; (require 'magit)
 ;; Auto-revert always on, helps when branching with git-auto-revert-mode)
 (global-auto-revert-mode)
+
+
+;; Eviews major mode
+(require 'eviews)
 
 
 (global-set-key (kbd "C-x s") 'save-buffer)
