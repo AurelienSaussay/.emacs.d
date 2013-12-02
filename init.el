@@ -261,7 +261,10 @@ searches all buffers."
 
 ;; Eviews major mode
 (require 'eviews)
-
+(add-hook 'eviews-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+	    (setq tab-width 4)))
 
 (global-set-key (kbd "C-x s") 'save-buffer)
 
@@ -274,3 +277,11 @@ searches all buffers."
   )
 
 (tool-bar-mode 0)
+
+
+;; Custom functions
+(defun cleanup-buffer ()
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min) (point-max) nil)
+  (untabify (point-min) (point-max)))
