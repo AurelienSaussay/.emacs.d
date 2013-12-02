@@ -5,18 +5,18 @@
 ;; Author: Joe Bloggs <vapniks@yahoo.com>
 ;; Maintainer: Joe Bloggs <vapniks@yahoo.com>
 ;; Copyleft (Ↄ) 2013, Joe Bloggs, all rites reversed.
-;; Created: 2008/08/01 
+;; Created: 2008/08/01
 ;; Version: 0.1
 ;; Last-Updated: 2013-05-13 16:36:29
 ;;           By: Joe Bloggs
 ;; URL: https://github.com/vapniks/eviews
 ;; Keywords: languages
 ;; Compatibility: GNU Emacs 24.3.1
-;; Package-Requires:  
+;; Package-Requires:
 ;;
 ;; Features that might be required by this library:
 ;;
-;; 
+;;
 ;;
 
 ;;; This file is NOT part of GNU Emacs
@@ -37,7 +37,7 @@
 ;; along with this program; see the file COPYING.
 ;; If not, see <http://www.gnu.org/licenses/>.
 
-;;; Commentary: 
+;;; Commentary:
 ;;
 ;; Bitcoin donations gratefully accepted: 1PwLXDzSWtPB7HBUJ32nybW3tqrdAoEfEM
 ;;
@@ -52,7 +52,7 @@
 ;; Put eviews.el in a directory in your load-path, e.g. ~/.emacs.d/
 ;; You can add a directory to your load-path with the following line in ~/.emacs
 ;; (add-to-list 'load-path (expand-file-name "~/elisp"))
-;; where ~/elisp is the directory you want to add 
+;; where ~/elisp is the directory you want to add
 ;; (you don't need to do this for ~/.emacs.d - it's added by default).
 ;;
 ;; Add the following to your ~/.emacs startup file.
@@ -60,19 +60,19 @@
 ;; (require 'eviews)
 
 ;;; Change log:
-;;	
+;;
 ;; 2013/05/13
 ;;      * First released.
-;; 
+;;
 
 ;;; Acknowledgements:
 ;;
-;; 
+;;
 ;;
 
 ;;; TODO
 ;;
-;; 
+;;
 ;;
 
 ;;; Require
@@ -120,14 +120,16 @@
   "Indent current line as eviews code."
   (interactive)
   (beginning-of-line)
-  (if (bobp) 
+  (if (bobp)
       (indent-line-to 0)
     (let ((not-indented t) cur-indent)
       (if (looking-at "^[ \t]*\\(else\\|endif\\|next\\|wend\\|endsub\\)")
 	  (progn
 	    (save-excursion
 	      (forward-line -1)
-	      (setq cur-indent (- (current-indentation) default-tab-width)))
+	      (while (equal (line-beginning-position) (line-end-position))
+		(forward-line -1))
+	      (setq cur-indent (- (current-indentation) 2)))
 	    (if (< cur-indent 0)
 		(setq cur-indent 0)))
 	(save-excursion
@@ -139,7 +141,7 @@
 		  (setq not-indented nil))
 	      (if (looking-at "^[ \t]*\\(if\\|else\\|for\\|while\\|subroutine\\)")
 		  (progn
-		    (setq cur-indent (+ (current-indentation) default-tab-width))
+		    (setq cur-indent (+ (current-indentation) 2))
 		    (setq not-indented nil))
 		(if (bobp)
 		    (setq not-indented nil)))))))
@@ -177,5 +179,3 @@
 ;; (yaoddmuse-post "EmacsWiki" "eviews.el" (buffer-name) (buffer-string) "update")
 
 ;;; eviews.el ends here
-
-
