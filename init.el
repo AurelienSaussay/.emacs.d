@@ -285,3 +285,14 @@ searches all buffers."
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil)
   (untabify (point-min) (point-max)))
+
+
+(defun add-star-line ()
+  (interactive)
+  (save-excursion
+    (let ((line-len (- (line-end-position) (line-beginning-position))))
+      (beginning-of-line)
+      (newline-and-indent)
+      (forward-line -1)
+      (insert-char ?\* line-len))
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
