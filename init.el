@@ -176,11 +176,16 @@
 
 ;; Go mode
 (require 'go-mode-load)
-(add-hook 'before-save-hook 'gofmt-before-save)
+;;(add-hook 'before-save-hook 'gofmt-before-save)
 (if (eq system-type 'windows-nt)
     (progn (setenv "GOPATH" "C:\\Data\\Go")
 	   (setenv "PATH" (concat (getenv "PATH") ";" "C:\\Go\\bin"))
 	   (setq exec-path (append exec-path '("C:\\Go\\bin")))))
+(add-hook 'go-mode-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)
+	    (setq tab-width 4)))
+
 
 ;; Yaml mode
 (require 'yaml-mode)
