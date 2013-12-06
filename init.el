@@ -304,3 +304,34 @@ searches all buffers."
       (forward-line -1)
       (insert-char ?\* line-len))
       (comment-or-uncomment-region (line-beginning-position) (line-end-position))))
+
+;; From http://www.emacswiki.org/emacs/ElispCookbook#toc39
+;; Emacs `filter` equivalent
+(defun keep-when (pred seq)
+  (let ((del (make-symbol "del")))
+    (remove del (mapcar (lambda (el)
+			  (if (funcall pred el) el del)) seq))))
+
+(defun list-directories-only (path)
+  (keep-when (lambda (f) (and (file-directory-p (concat path f))
+			      (not (equal f ".."))
+			      (not (equal f "."))))
+	     (directory-files path)))
+
+(setq python-spec "*python-spec*")
+
+(defun open-python-spec-shell ()
+  (interactive)
+  (unless (get-buffer python-spec)
+    (shell python-spec)
+    (switch-to-buffer python-spec)
+    (comint-send-string (get-buffer-process python-spec) ".\\env\\Scripts\\activate\n")))
+
+(defun run-python-spec ()
+  (interactive)
+  (open-python-spec-shell)
+  (switch-to-buffer python-spec)
+  (comint-send-string (get-buffer-process python-spec) "spec\n"))
+
+(add-hook 'python-mode-hook
+	  (lambda () (local-set-key (kbd "C-c t") #'run-python-spec)))
