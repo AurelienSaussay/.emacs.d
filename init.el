@@ -264,6 +264,9 @@ searches all buffers."
 (global-auto-revert-mode)
 
 
+;; Set font
+(set-default-font "Consolas 12")
+
 ;; Eviews major mode
 (require 'eviews)
 (add-hook 'eviews-mode-hook
