@@ -277,6 +277,9 @@ searches all buffers."
 (global-set-key (kbd "C-x s") 'save-buffer)
 
 
+;; Scilab mode
+(load "scilab/scilab-startup")
+
 ;; ELPA for Emacs >= 24
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -324,13 +327,15 @@ searches all buffers."
   (interactive)
   (unless (get-buffer python-spec)
     (shell python-spec)
-    (switch-to-buffer python-spec)
-    (comint-send-string (get-buffer-process python-spec) ".\\env\\Scripts\\activate\n")))
+    (pop-to-buffer python-spec)
+    (comint-send-string (get-buffer-process python-spec) (if (eq system-type 'windows-nt)
+							     ".\\env\\Scripts\\activate\n"
+							   ". env/bin/activate\n"))))
 
 (defun run-python-spec ()
   (interactive)
   (open-python-spec-shell)
-  (switch-to-buffer python-spec)
+  (pop-to-buffer python-spec)
   (comint-send-string (get-buffer-process python-spec) "spec\n"))
 
 (add-hook 'python-mode-hook
