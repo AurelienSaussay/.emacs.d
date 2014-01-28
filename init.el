@@ -32,6 +32,10 @@
 (smex-initialize)
 (global-set-key (kbd "C-c x") 'smex)
 
+;; Terminal Path inside Emacs
+(require 'exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; find-files: recursively open files with -r*
 (require 'find-files)
