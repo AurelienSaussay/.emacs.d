@@ -100,12 +100,17 @@
 
 ;; Coffee mode
 (require 'coffee-mode)
-(add-hook 'coffee-mode-hook '(lambda () (coffee-cos-mode t)))
-(defun coffee-custom ()
-  "coffee-mode-hook"
-  (set (make-local-variable 'tab-width) 2))
 (add-hook 'coffee-mode-hook
-	  '(lambda() (coffee-custom)))
+	  '(lambda ()
+	     (coffee-cos-mode t)
+	     (set (make-local-variable 'tab-width) 2)))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(coffee-tab-width 2))
 
 ;; Less css mode
 (require 'less-css-mode)
