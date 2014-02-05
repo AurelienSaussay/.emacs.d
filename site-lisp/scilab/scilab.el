@@ -373,7 +373,7 @@ additional cases as the need arrises. It is not implemented yet"
 ;;  :type 'boolean
 )
 
-(defcustom scilab-auto-fill t
+(defcustom scilab-auto-fill nil
   "*If true, set variable `auto-fill-function' to our function at startup."
   :group 'scilab-edit
   :type 'boolean)
