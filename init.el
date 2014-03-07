@@ -298,6 +298,9 @@ searches all buffers."
 
 (tool-bar-mode 0)
 
+;; MoDeL mode
+(require 'model-mode)
+
 
 ;; Custom functions
 (defun cleanup-buffer ()
