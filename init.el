@@ -303,6 +303,9 @@ searches all buffers."
 ;; MoDeL mode
 (require 'model-mode)
 
+;; Nimrod mode
+(require 'nimrod-mode)
+
 
 ;; Custom functions
 (defun cleanup-buffer ()
