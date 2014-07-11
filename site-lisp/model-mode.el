@@ -1,7 +1,7 @@
 (require 'generic-x)
 
 (define-generic-mode 'model-mode
-  ()
+  '()
   '()
   '(("\\(#.*$\\)" 1 'font-lock-comment-face)
     ("\\(\\<d\\>\\)(" 1 'font-lock-constant-face)

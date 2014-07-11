@@ -236,6 +236,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
+(require 'visual-basic-mode)
+
 ;; Search all files
 ;; by offby1 on Stack Overflow
 ;; http://stackoverflow.com/questions/2641211/emacs-interactively-search-open-buffers
