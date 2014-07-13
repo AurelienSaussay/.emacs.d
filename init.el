@@ -261,8 +261,6 @@ searches all buffers."
 
    regexp))
 
-(global-set-key (kbd "C-c s") 'search-all-buffers)
-
 ;; Textmate.el
 ;; (require 'textmate)
 ;; (textmate-mode)
@@ -283,9 +281,6 @@ searches all buffers."
 	    (setq indent-tabs-mode nil)
 	    (setq tab-width 4)))
 
-(global-set-key (kbd "C-x s") 'save-buffer)
-
-
 ;; Scilab mode
 (load "scilab/scilab-startup")
 
@@ -296,10 +291,23 @@ searches all buffers."
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   )
 
-(tool-bar-mode 0)
-
 ;; MoDeL mode
 (require 'model-mode)
+
+;;--------------------------------------------------------------------
+;; Teach emacs to syntax highlight Vagrantfile as Ruby.
+;;
+;; Installation: Copy the line below into your emacs configuration,
+;; or drop this file anywhere in your "~/.emacs.d" directory and be
+;; sure to "load" it.
+;;--------------------------------------------------------------------
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+
+
+;; Custom shortcuts
+(global-set-key (kbd "C-c s") 'search-all-buffers)
+(global-set-key (kbd "C-x s") 'save-buffer)
+(tool-bar-mode 0)
 
 
 ;; Custom functions
