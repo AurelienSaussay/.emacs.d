@@ -236,6 +236,8 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
+(require 'visual-basic-mode)
+
 ;; Search all files
 ;; by offby1 on Stack Overflow
 ;; http://stackoverflow.com/questions/2641211/emacs-interactively-search-open-buffers
@@ -308,6 +310,9 @@ searches all buffers."
 (global-set-key (kbd "C-c s") 'search-all-buffers)
 (global-set-key (kbd "C-x s") 'save-buffer)
 (tool-bar-mode 0)
+
+;; Nimrod mode
+(require 'nimrod-mode)
 
 
 ;; Custom functions
