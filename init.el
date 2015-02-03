@@ -286,6 +286,9 @@ searches all buffers."
 ;; Scilab mode
 (load "scilab/scilab-startup")
 
+;; Javascript indent
+(setq js-indent-level 2)
+
 ;; ELPA for Emacs >= 24
 (when (>= emacs-major-version 24)
   (require 'package)
@@ -313,7 +316,8 @@ searches all buffers."
 
 ;; Nimrod mode
 (require 'nimrod-mode)
-
+(define-key nimrod-mode-map (kbd "C-c c") '(lambda () (interactive) (nimrod-compile (list "c" (buffer-file-name)))))
+(define-key nimrod-mode-map (kbd "C-c r") '(lambda () (interactive) (nimrod-compile (list "c" "-r" (buffer-file-name)))))
 
 ;; Custom functions
 (defun cleanup-buffer ()
